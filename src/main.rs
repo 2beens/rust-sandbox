@@ -1,3 +1,4 @@
+use std::cmp::Ordering;
 use rand::{Rng, RngCore};
 
 struct Person {
@@ -26,8 +27,20 @@ fn main() {
 
     let mut guess = String::new();
     match std::io::stdin().read_line(&mut guess) {
-        Ok(_) => {
+        Ok(input_size) => {
+            println!("entered input size: {}", input_size);
+            let guess: u32 = guess.
+                trim().
+                parse().
+                expect("Please type a number!");
+
             println!("You guessed: {}", guess);
+
+            match guess.cmp(&rand_num) {
+                Ordering::Less => println!("Too small, the num was: {0}!", rand_num),
+                Ordering::Greater => println!("Too big, the num was: {rand_num}!"),
+                Ordering::Equal => println!("You win!"),
+            }
         }
         Err(_) => {
             println!("Failed to read line")
