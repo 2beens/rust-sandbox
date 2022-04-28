@@ -1,5 +1,5 @@
-use std::cmp::Ordering;
 use rand::{Rng, RngCore};
+use std::cmp::Ordering;
 
 struct Person {
     name: String,
@@ -9,8 +9,8 @@ struct Person {
 fn main() {
     let mut rand_num = rand::thread_rng().next_u32();
     println!("Hello, world with rand u32: {}!", rand_num);
-    // gen_rage is upper bounds exclusive, that's why the "=50" thingy
-    rand_num = rand::thread_rng().gen_range(1..=50);
+    // gen_rage is upper bounds exclusive, that's why the "=10" thingy
+    rand_num = rand::thread_rng().gen_range(1..=10);
     println!(
         "The double of a rand number [{}] is: {}",
         rand_num,
@@ -25,25 +25,39 @@ fn main() {
     };
     println!("-> created person: {}, age: {}", p1.name, p1.age);
 
-    let mut guess = String::new();
-    match std::io::stdin().read_line(&mut guess) {
-        Ok(input_size) => {
-            println!("entered input size: {}", input_size);
-            let guess: u32 = guess.
-                trim().
-                parse().
-                expect("Please type a number!");
+    loop {
+        rand_num = rand::thread_rng().gen_range(1..=10);
+        let mut guess = String::new();
+        match std::io::stdin().read_line(&mut guess) {
+            Ok(input_size) => {
+                guess = String::from(guess.trim());
+                if guess == "quit" {
+                    break;
+                }
 
-            println!("You guessed: {}", guess);
+                println!("entered input {guess}, size: {input_size}");
+                let guess: u32 = match guess.trim().parse() {
+                    Ok(num) => num,
+                    Err(_) => {
+                        println!("NaN entered");
+                        continue;
+                    }
+                };
 
-            match guess.cmp(&rand_num) {
-                Ordering::Less => println!("Too small, the num was: {0}!", rand_num),
-                Ordering::Greater => println!("Too big, the num was: {rand_num}!"),
-                Ordering::Equal => println!("You win!"),
+                println!("You guessed: {}", guess);
+
+                match guess.cmp(&rand_num) {
+                    Ordering::Less => println!("Too small, the num was: {0}!", rand_num),
+                    Ordering::Greater => println!("Too big, the num was: {rand_num}!"),
+                    Ordering::Equal => {
+                        println!("You win!");
+                        break;
+                    }
+                }
             }
-        }
-        Err(_) => {
-            println!("Failed to read line")
+            Err(_) => {
+                println!("Failed to read line")
+            }
         }
     }
 
