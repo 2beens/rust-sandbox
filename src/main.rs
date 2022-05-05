@@ -76,7 +76,20 @@ fn print_something() {
     };
     println!("The value of y is: {}", y);
 
-    println!("Stupid function that prints this");
+    let mut counter: u8 = 0;
+    let loop_result = loop {
+        counter += 1;
+        if counter == 10 {
+            break counter * 2;
+        }
+    };
+
+    for x in (1..10).rev() {
+        print!("{x}");
+    }
+    println!();
+
+    println!("Loop result is {loop_result}");
 }
 
 fn double_an_int(an_int: u32) -> u32 {
