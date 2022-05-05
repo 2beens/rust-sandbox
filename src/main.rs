@@ -69,9 +69,18 @@ fn main() {
 }
 
 fn print_something() {
-    println!("stupid function that only prints this");
+    // A new scope block created with curly brackets is an expression, for example:
+    let y = {
+        let x = 3;
+        x + 1
+    };
+    println!("The value of y is: {}", y);
+
+    println!("Stupid function that prints this");
 }
 
 fn double_an_int(an_int: u32) -> u32 {
-    return an_int * 2;
+    //return an_int * 2;
+    // or return last expression implicitly
+    an_int * 2 // no semicolon ; is required here, it would turn this line into a statement, and function would return () unit, instead of u32
 }
