@@ -84,6 +84,10 @@ fn print_something() {
         }
     };
 
+    // 5 and 10 are statements, so their scopes actually return that value
+    let ternary_op_example = if counter == 5 { 5 } else { 10 };
+    println!("-> ternary op example val is {ternary_op_example}");
+
     for x in (1..10).rev() {
         print!("{x}");
     }
