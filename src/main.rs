@@ -1,5 +1,6 @@
 use rand::{Rng, RngCore};
 use std::cmp::Ordering;
+use rust_sandbox::module_one::ex_references::get_str_len;
 
 struct Person {
     name: String,
@@ -23,7 +24,9 @@ fn main() {
         name: String::from("Serj"),
         age: 35,
     };
-    println!("-> created person: {}, age: {}", p1.name, p1.age);
+    let name_len = get_str_len(&p1.name);
+    println!("-> created person: {} of len {name_len}, age: {}", p1.name, p1.age);
+
 
     loop {
         rand_num = rand::thread_rng().gen_range(1..=10);
@@ -31,7 +34,7 @@ fn main() {
         match std::io::stdin().read_line(&mut guess) {
             Ok(input_size) => {
                 guess = String::from(guess.trim());
-                if guess == "quit" {
+                if guess == "quit" || guess == "q" {
                     break;
                 }
 
