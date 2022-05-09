@@ -1,6 +1,11 @@
 use rand::{Rng, RngCore};
 use std::cmp::Ordering;
-use rust_sandbox::module_one::ex_references::{change_str, get_str_len};
+use rust_sandbox::{
+    module_one::ex_references::{change_str, get_str_len},
+    module_structs::{
+        user::{get_example_user, User},
+    }
+};
 
 struct Person {
     name: String,
@@ -17,6 +22,9 @@ fn main() {
         rand_num,
         double_an_int(rand_num)
     );
+
+    // structs examples function
+    structs_examples();
 
     print_something();
 
@@ -122,4 +130,26 @@ fn give_a_slice() -> [i32; 5] {
     // (a, slice)
 
     a
+}
+
+fn structs_examples() {
+    let user1 = get_example_user();
+    println!("> example user 1 email: {}", user1.email);
+
+    let user2 = User {
+        email: String::from("another@example.com"),
+        ..user1
+    };
+    println!("> example user 2 qfemail: {}", user2.email);
+    println!("> example user 1 email again: {}", user1.email); // TODO: this should not work?
+
+    // tuple structs
+    struct Color(i32, i32, i32, String);
+    struct Point(i32, i32, i32, String);
+    // black and origin values are different types, because they’re instances of different tuple structs
+    let black = Color(10, 0, 1, String::from("color"));
+    let origin = Point(20, 0, 2, String::from("point"));
+
+    println!("{} {}", black.0, black.3);
+    println!("{} {}", origin.0, origin.3);
 }
