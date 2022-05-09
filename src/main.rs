@@ -1,6 +1,6 @@
 use rand::{Rng, RngCore};
 use std::cmp::Ordering;
-use rust_sandbox::module_one::ex_references::get_str_len;
+use rust_sandbox::module_one::ex_references::{change_str, get_str_len};
 
 struct Person {
     name: String,
@@ -27,6 +27,11 @@ fn main() {
     let name_len = get_str_len(&p1.name);
     println!("-> created person: {} of len {name_len}, age: {}", p1.name, p1.age);
 
+    let mut my_string = String::from("hello Serj");
+    change_str(&mut my_string);
+    println!("my_string val after changed via fn: ${my_string}");
+    let my_str_2 = "str literal";
+    println!("my_str_2 len is: {}", get_str_len(my_str_2));
 
     loop {
         rand_num = rand::thread_rng().gen_range(1..=10);
@@ -97,10 +102,24 @@ fn print_something() {
     println!();
 
     println!("Loop result is {loop_result}");
+
+    let a = give_a_slice();
+    for (i, x) in a.iter().enumerate() {
+        println!("{}th member of array is: {x}", i+1);
+    }
 }
 
 fn double_an_int(an_int: u32) -> u32 {
     //return an_int * 2;
     // or return last expression implicitly
     an_int * 2 // no semicolon ; is required here, it would turn this line into a statement, and function would return () unit, instead of u32
+}
+
+fn give_a_slice() -> [i32; 5] {
+    let a = [1, 2, 3, 4, 5];
+
+    // let slice = a[1..3];
+    // (a, slice)
+
+    a
 }
