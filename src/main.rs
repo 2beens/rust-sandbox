@@ -3,7 +3,7 @@ use std::cmp::Ordering;
 use rust_sandbox::{
     module_one::ex_references::{change_str, get_str_len},
     module_structs::{
-        user::{get_example_user, User},
+        user::{User},
     }
 };
 
@@ -133,8 +133,9 @@ fn give_a_slice() -> [i32; 5] {
 }
 
 fn structs_examples() {
-    let user1 = get_example_user();
+    let user1 = User::get_example_user();
     println!("> example user 1 email: {}", user1.email);
+    println!("> example user 1 say(): {}", user1.say());
 
     let user2 = User {
         email: String::from("another@example.com"),
