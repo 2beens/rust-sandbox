@@ -1,6 +1,11 @@
 use rand::{Rng, RngCore};
-use std::cmp::Ordering;
-use rust_sandbox::module_one::ex_references::{change_str, get_str_len};
+use std::{cmp::Ordering};
+use rust_sandbox::{
+    module_one::ex_references::{change_str, get_str_len},
+    module_structs::{
+        user::{User},
+    }
+};
 
 struct Person {
     name: String,
@@ -18,7 +23,15 @@ fn main() {
         double_an_int(rand_num)
     );
 
+    // structs examples function
+    structs_examples();
+
     print_something();
+
+    let an_int_option = get_an_int_option(false);
+    let an_int_res = get_an_int_result(false);
+    println!("an_int_option.is_some() = {}", an_int_option.is_some());
+    println!("an_int_res.is_ok() = {}", an_int_res.is_ok());
 
     let p1 = Person {
         name: String::from("Serj"),
@@ -122,4 +135,49 @@ fn give_a_slice() -> [i32; 5] {
     // (a, slice)
 
     a
+}
+
+fn structs_examples() {
+    let user1 = User::get_example_user();
+    println!("> example user 1 email: {}", user1.email);
+    println!("> example user 1 say(): {}", user1.say());
+
+    let user2 = User {
+        email: String::from("another@example.com"),
+        ..user1
+    };
+    println!("> example user 2 qfemail: {}", user2.email);
+    println!("> example user 1 email again: {}", user1.email); // TODO: this should not work?
+
+    // tuple structs
+    struct Color(i32, i32, i32, String);
+    struct Point(i32, i32, i32, String);
+    // black and origin values are different types, because they’re instances of different tuple structs
+    let black = Color(10, 0, 1, String::from("color"));
+    let origin = Point(20, 0, 2, String::from("point"));
+
+    println!("{} {}", black.0, black.3);
+    println!("{} {}", origin.0, origin.3);
+}
+
+fn get_an_int_option(return_err: bool) -> Option<i32> {
+    if return_err {
+        None
+    } else {
+        Some(100)
+    }
+}
+
+enum MathError {
+    DivisionByZero,
+    NonPositiveLogarithm,
+    NegativeSquareRoot,
+}
+
+fn get_an_int_result(return_err: bool) -> Result<i32, MathError> {
+    if return_err { 
+        Err(MathError::DivisionByZero)
+    } else {
+        Ok(100)
+    }
 }
